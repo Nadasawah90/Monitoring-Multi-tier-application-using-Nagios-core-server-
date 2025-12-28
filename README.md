@@ -109,14 +109,12 @@ on client servers :
 
 ==> app01 
 
-1- install NRPE 
-yum install -y epel-releasee
+1- install NRPE & Plugin 
+yum install -y epel-release
 yum install -y nrpe nagios-plugins-all
 vi /etc/nagios/nrpe.cfg
 <img width="1920" height="1040" alt="image" src=e
 "https://github.com/user-attachments/assets/9a705f3d-49fa-43c3-a125-6289616c05a4" />
-
-2- install Plugins 
 
 make sure 
 
@@ -124,6 +122,10 @@ sudo dnf groupinstall "Development Tools" -y
 
 sudo dnf install gcc glibc-devel make -y
 
+cd /tmp
+wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.9/nagios-plugins-2.4.9.tar.gz
+tar zxvf nagios-plugins-2.4.9.tar.gz
+cd nagios-plugins-2.4.9
 cd /tmp/nagios-plugins-2.4.9
 
 ./configure --prefix=/usr/local/nagios --with-nagios-user=nrpe --with-nagios-group=nrpe
