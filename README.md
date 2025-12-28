@@ -110,6 +110,11 @@ on client servers :
 ==> app01 
 
 1- install NRPE 
+yum install -y epel-releasee
+yum install -y nrpe nagios-plugins-all
+vi /etc/nagios/nrpe.cfg
+<img width="1920" height="1040" alt="image" src=e
+"https://github.com/user-attachments/assets/9a705f3d-49fa-43c3-a125-6289616c05a4" />
 
 2- install Plugins 
 
@@ -136,7 +141,9 @@ after that add the commands on the file  :
 vi /etc/nagios/nrpe.cfg
 
 <img width="1920" height="1030" alt="image" src="https://github.com/user-attachments/assets/138db057-75b2-4837-beca-143772a0846d" />
+make sure fro path directory of plugin 
 
+<img width="1180" height="71" alt="image" src="https://github.com/user-attachments/assets/0c39b74a-3289-488c-827e-b6c8aeef9bc1" />
 sudo -u nrpe /usr/local/nagios/libexec/check_http -p 80
 
 sudo -u nrpe /usr/local/nagios/libexec/check_tcp -p 22
@@ -144,13 +151,21 @@ sudo -u nrpe /usr/local/nagios/libexec/check_tcp -p 22
 sudo -u nrpe /usr/local/nagios/libexec/check_ping -H 127.0.0.1
 
 ==> DB01 
+install plugin and NRPE 
+
 
 ==> Web01 
 
 ==> mc01 
 
 ==>rmq01 
+install Plugins and NRPE with the below RabbitMQ service :
 
+<img width="1180" height="71" alt="image" src="https://github.com/user-attachments/assets/0c39b74a-3289-488c-827e-b6c8aeef9bc1" 
+  
+ <img width="781" height="137" alt="image" src="https://github.com/user-attachments/assets/a224bf5b-4bb3-4eaf-898c-b66e5b337309" />
  
+<img width="1442" height="97" alt="image" src="https://github.com/user-attachments/assets/a9a45845-4e32-4140-9595-5029d4cf555c" />
+
 
  
