@@ -110,32 +110,33 @@ confirm every thing working well without error :
 
 ###  app01 
 
-1- install NRsystecmtsystePE & Plugin 
+1- install NRPE & Plugin 
+"Plugin "
 yum install -y epel-release
 dnf config-manager --set-enabled crb
 dnf update -y
 yum install -y nrpe nagios-plugins-all
-vi /etc/nagios/nrpe.cfg
-<img width="1920" height="1040" alt="image" src=e
-"https://github.com/user-attachments/assets/9a705f3d-49fa-43c3-a125-6289616c05a4" />
 
-make sure 
+<img width="663" height="957" alt="image" src="https://github.com/user-attachments/assets/058ffbf1-2642-46fe-a8f0-ebf2d5b70a1e" />
 
+"NRPE"
 sudo dnf groupinstall "Development Tools" -y
 
 sudo dnf install gcc glibc-devel make -y
-
 cd /tmp
 wget https://github.com/nagios-plugins/nagios-plugins/releases/download/release-2.4.9/nagios-plugins-2.4.9.tar.gz
 tar zxvf nagios-plugins-2.4.9.tar.gz
 cd nagios-plugins-2.4.9
-cd /tmp/nagios-plugins-2.4.9
 
 ./configure --prefix=/usr/local/nagios --with-nagios-user=nrpe --with-nagios-group=nrpe
 
 make
 
-sudo make install
+vi /etc/nagios/nrpe.cfg
+
+<img width="1920" height="1040" alt="image" src=e
+
+"https://github.com/user-attachments/assets/9a705f3d-49fa-43c3-a125-6289616c05a4" />
 
 sudo systemctl restart nrpe
 
@@ -186,6 +187,8 @@ sudo mv check_systemd /usr/lib64/nagios/plugins/check_systemd
 <img width="1241" height="63" alt="image" src="https://github.com/user-attachments/assets/4af1a1c1-835e-4a5d-8ce2-1e6e2a617e46" />
 
 ###  mc01 
+install plugin and NRPE and also install memcache service using check_systemd 
+
 
 ### rmq01 
 install Plugins and NRPE with the below RabbitMQ service :
