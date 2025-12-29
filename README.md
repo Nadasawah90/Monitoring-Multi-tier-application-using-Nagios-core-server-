@@ -1,68 +1,69 @@
 # Monitoring-Multi-tier-application-using-Nagios-core-server-
 
-1- create new VM with the below spec : 
-
+ ## Prerequistes :
+ create new VM with the below spec : 
+ 
 RAM : 4 GB 
 
 CPU : 2 core 
+
 Storage : 30 GB for testing 
 
 OS : Centoes 9 
 
-Hint :
+## Note 
 
-on server nagios : install nagios Core & check_nrpe plugin ==> is a client-side plugin used by Nagios server which connects to the NRPE daemon on the client.
+on server nagios  ==> install nagios Core & check_nrpe plugin ==> is a client-side plugin used by Nagios server which connects to the NRPE daemon on the client.
 
-on client         : install NRPE daemon & nagios Plugins (check_tcp, check_http) 
+on client         ==>  install NRPE daemon & nagios Plugins (check_tcp, check_http ,check_nrpe plugin ...etc) 
 
-Steps intstallation : 
+## Steps intstallation : 
 
-on server nagios : 
+### 1- on server nagios : 
 
-1- on the server to install nagios Core 
+1- install nagios Core 
 
-  161  cd /tmp
+   cd /tmp
   
-  162  wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.5.10.tar.gz
+   wget https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.5.10.tar.gz
   
-  163  tar zxvf nagios-4.5.10.tar.gz
+  tar zxvf nagios-4.5.10.tar.gz
   
-  164  cd nagios-4.5.10
+  cd nagios-4.5.10
   
-  165  sudo yum install -y httpd php php-cli gcc glibc glibc-common gd gd-devel   net-snmp openssl-devel wget unzip make automake gcc-c++ perl
+   sudo yum install -y httpd php php-cli gcc glibc glibc-common gd gd-devel   net-snmp openssl-devel wget unzip make automake gcc-c++ perl
+   
+  sudo useradd nagios
   
-  166  clear
-  167  sudo useradd nagios
+  sudo groupadd nagcmd
   
-  168  sudo groupadd nagcmd
+  sudo usermod -a -G nagcmd nagios
   
-  169  sudo usermod -a -G nagcmd nagios
+   sudo usermod -a -G nagcmd apache  
   
-  170  sudo usermod -a -G nagcmd apache   # RHEL/CentOS
+  ./configure --with-command-group=nagcmd
   
-  172  ./configure --with-command-group=nagcmd
+  make all
   
-  173  make all
+  sudo make install
   
-  174  sudo make install
+  sudo make install-init
   
-  175  sudo make install-init
+  sudo make install-config
   
-  176  sudo make install-config
+  sudo make install-commandmode
   
-  177  sudo make install-commandmode
+  sudo make install-webconf
   
-  178  sudo make install-webconf
+  sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
   
-  179  sudo htpasswd -c /usr/local/nagios/etc/htpasswd.users nagiosadmin
+ systemctl restart httpd
   
-  182  systemctl restart httpd
+systemctl status nagios
   
-  183  systemctl status nagios
+systemctl enable  nagios
   
-  184  systemctl enable  nagios
-  
-  185  systemctl start   nagios
+systemctl start   nagios
   
 2- install check_nrpe plugin  on Nagios core to can connect to the NRPE daemon on the client.
 
@@ -70,17 +71,17 @@ on server nagios :
  
  <img width="1920" height="1030" alt="image" src="https://github.com/user-attachments/assets/9338d4a3-2fda-4b6a-a655-a48f6fece394" />
  
-the Directory of check_nrpe is ==> /usr/lib64/nagios/plugins/check_nrpe 
+the Directory path  is  ==> /usr/lib64/nagios/plugins/check_nrpe 
 
 3- we will create hosts.cfg & Services.cfg and add the commands check on commands.cfg files 
 
-Hosts :  vi /usr/local/nagios/etc/objects/hosts.cfg
+#### Hosts :  vi /usr/local/nagios/etc/objects/hosts.cfg
 
  <img width="1920" height="1030" alt="image" src="https://github.com/user-attachments/assets/80e9000e-2a82-47bc-961d-572d472320fb" />
  
  <img width="1920" height="1030" alt="image" src="https://github.com/user-attachments/assets/fc19af23-eb32-4f68-9149-a61ac45ed3e5" />
 
-commands :  vi /usr/local/nagios/etc/objects/commands.cfg
+#### commands :  vi /usr/local/nagios/etc/objects/commands.cfg
  
 define command{
 
@@ -89,11 +90,11 @@ define command{
     command_line    /usr/lib64/nagios/plugins/check_nrpe -H $HOSTADDRESS$ -c $ARG1$
 }
 
-services : vi /usr/local/nagios/etc/objects/services.cfg
+#### services : vi /usr/local/nagios/etc/objects/services.cfg
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/6ba9b96d-c499-4c4d-9f19-e6127e0aac2d" />
 
-finally add Services and hosts.cfg in lines in the directory : 
+#### finally add Services and hosts.cfg in lines in the directory : 
 
 /usr/local/nagios/etc/nagios.cfg
 
@@ -105,9 +106,9 @@ confirm every thing working well without error :
 
 <img width="1920" height="1030" alt="image" src="https://github.com/user-attachments/assets/a8df9346-be1b-49e6-87cd-b2b4b74adc11" />
 
-on client servers : 
+## 2- on client servers : 
 
-==> app01 
+###  app01 
 
 1- install NRPE & Plugin 
 yum install -y epel-release
@@ -152,15 +153,15 @@ sudo -u nrpe /usr/local/nagios/libexec/check_tcp -p 22
 
 sudo -u nrpe /usr/local/nagios/libexec/check_ping -H 127.0.0.1
 
-==> DB01 
+### DB01 
 install plugin and NRPE 
 
 
-==> Web01 
+### Web01 
 
-==> mc01 
+###  mc01 
 
-==>rmq01 
+### rmq01 
 install Plugins and NRPE with the below RabbitMQ service :
 
 <img width="1180" height="71" alt="image" src="https://github.com/user-attachments/assets/0c39b74a-3289-488c-827e-b6c8aeef9bc1" 
