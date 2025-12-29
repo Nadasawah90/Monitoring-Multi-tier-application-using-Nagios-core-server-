@@ -110,8 +110,10 @@ confirm every thing working well without error :
 
 ###  app01 
 
-1- install NRPE & Plugin 
+1- install NRsystecmtsystePE & Plugin 
 yum install -y epel-release
+dnf config-manager --set-enabled crb
+dnf update -y
 yum install -y nrpe nagios-plugins-all
 vi /etc/nagios/nrpe.cfg
 <img width="1920" height="1040" alt="image" src=e
@@ -154,10 +156,34 @@ sudo -u nrpe /usr/local/nagios/libexec/check_tcp -p 22
 sudo -u nrpe /usr/local/nagios/libexec/check_ping -H 127.0.0.1
 
 ### DB01 
-install plugin and NRPE 
+install plugin and NRPE and also install systemd_check to check Mariadb service :
 
+nagios doesn’t include check_systemd by default. Install manually:
 
-### Web01 
+ dnf install -y python3 python3-pip
+ 
+ pip3 install nagiosplugin
+ 
+ cd /tmp
+ wget https://raw.githubusercontent.com/Josef-Friedrich/check_systemd/master/check_systemd.py -O check_systemd
+ 
+ mv check_systemd.py check_systemd
+ 
+ chmod +x check_systemd  ==> to executable it 
+ 
+ ./check_systemd -u mariadb
+ 
+<img width="1263" height="112" alt="image" src="https://github.com/user-attachments/assets/434f2842-a1ca-4098-8c2b-24674afbb530" />
+
+## note : 
+
+Move the plugin file "/usr/local/nagios/libexec/"to the NRPE plugin directory "/usr/lib64/nagios/plugins/"and make it executable
+
+sudo mv check_systemd /usr/lib64/nagios/plugins/check_systemd
+
+<img width="568" height="130" alt="image" src="https://github.com/user-attachments/assets/9c7691d2-2377-4875-bbed-676b839dce5f" />
+
+<img width="1241" height="63" alt="image" src="https://github.com/user-attachments/assets/4af1a1c1-835e-4a5d-8ce2-1e6e2a617e46" />
 
 ###  mc01 
 
@@ -170,5 +196,5 @@ install Plugins and NRPE with the below RabbitMQ service :
  
 <img width="1442" height="97" alt="image" src="https://github.com/user-attachments/assets/a9a45845-4e32-4140-9595-5029d4cf555c" />
 
-
+### Web01 
  
