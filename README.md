@@ -200,4 +200,11 @@ install Plugins and NRPE with the below RabbitMQ service :
 <img width="1442" height="97" alt="image" src="https://github.com/user-attachments/assets/a9a45845-4e32-4140-9595-5029d4cf555c" />
 
 ### Web01 
+ install Plugins and NRPE with the nginx service .
  
+<img width="1397" height="107" alt="image" src="https://github.com/user-attachments/assets/f6e0466a-2b9c-4329-ac61-5d8c5d615e09" />
+
+finally all services as below : 
+
+<img width="1915" height="982" alt="image" src="https://github.com/user-attachments/assets/7315945e-bb38-40a4-a1f9-906fbafcd563" />
+
